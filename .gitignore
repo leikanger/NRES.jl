@@ -1,0 +1,13 @@
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+/deps/deps.jl
+/docs/build
+
+.codecov.yml
+.github/
+.gitlab-ci.yml
+.travis.yml
+appveyor.yml
+docs/
+test/coverage/
