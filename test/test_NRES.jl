@@ -16,13 +16,26 @@ using Test
     @test_throws UndefKeywordError SAT()
     " Construction of SAT without SAT_container argument throuws "
 
-    case = MuExS()
-    @test isa(case, NRES.SAT_container)
+    case_container = MuExS()
+    @test isa(case_container, NRES.SAT_container)
     " A MuExS is a SAT_container "
 
+    #@test NRES.size(case_container) == 0
+    " initially empty.. "
 
+    case = SAT(member_of_set=case_container)
+    @test case._member_of_group == case_container
+    #@test size(case_container) == 1
+    " Creating a SAT automatically places it into a SAT_container "
+
+
+
+    # TEST:
+    # - making a SAT creates an extra entry in the corresponding container.
 end
 
+# TEST MuExS: activation of one causes deactivation of the one that was active.
+# + other MuExS functionality.
 end#module TEST_NRES
 
 

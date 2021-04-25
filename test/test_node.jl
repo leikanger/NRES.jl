@@ -2,8 +2,10 @@ module TEST_NODE
 using NRES
 using Test
 
+struct DUMMY_container <: NRES.SAT_container end
+
 @testset "SAT init" begin
-    demoSet = NRES.MuExS()
+    demoSet = DUMMY_container()
     case = Node.SAT(member_of_set=demoSet)
     @test isa(case, Node.SAT)
     " Node.SAT initializes an instance of SAT "

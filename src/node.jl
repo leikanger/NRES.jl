@@ -3,9 +3,6 @@ module Node
 """ sat_container inherits to NRES, and can e.g. represent a mutually exclusive set of SAT """
 abstract type SAT_container end
 
-struct MuExS <: SAT_container
-end
-
 """ A SAT is ALWAYS a member of a containing group! -- required ctor argument: member_of_group
 (consider releasing this requirement for binary SAT-groups: [accomplished], [not accomplished] )
 """
@@ -31,5 +28,5 @@ function deactivate!(node::SAT)
     node._activation = false
 end
 
-export activate!, SAT_container, SAT, MuExS
+export activate!, SAT_container, SAT
 end #module Node
