@@ -20,7 +20,7 @@ using Test
     @test isa(case_container, NRES.SAT_container)
     " A MuExS is a SAT_container "
 
-    #@test NRES.size(case_container) == 0
+    @test NRES.size(case_container) == 0
     " initially empty.. "
 
     case = SAT(member_of_set=case_container)
