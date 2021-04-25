@@ -3,9 +3,12 @@ using NRES
 using Test
 
 @testset "SAT init" begin
-    case = Node.SAT()
+    demoSet = NRES.MuExS()
+    case = Node.SAT(member_of_set=demoSet)
     @test isa(case, Node.SAT)
     " Node.SAT initializes an instance of SAT "
+
+    #@test isa(case._member_of_group, NRES.Node.SAT_container)
 
     @test !Node.is_active(case)
     @test  Node.not_active(case)
