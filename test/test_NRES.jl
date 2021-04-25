@@ -1,4 +1,5 @@
 module TEST_NRES
+using NRES
 using Test
 
 #=
@@ -12,8 +13,14 @@ using Test
 =#
 
 @testset "construct place cell" begin
-    @show "test"
-    @test true
+    @test_throws UndefKeywordError SAT()
+    " Construction of SAT without SAT_container argument throuws "
+
+    case = MuExS()
+    @test isa(case, NRES.SAT_container)
+    " A MuExS is a SAT_container "
+
+
 end
 
 end#module TEST_NRES
