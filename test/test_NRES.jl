@@ -21,14 +21,15 @@ using Test
     @test isa(case_container._elements, Union{Nothing, Array{SAT}})
     " A MuExS is a SAT_container "
 
-    @test NRES.size(case_container) == 0
+    @test NRES.length(case_container) == 0
     " initially empty.. "
 
     case = SAT(member_of_set=case_container)
     @test case._member_of_group == case_container
-    @test isa(case._member_of_group._elements, Union{Nothing, Array{SAT}})
-    #@test isa(case._member_of_group._elements[0], SAT)
     " Creating a SAT automatically places it into a SAT_container "
+
+    @test length(case_container) == 1
+    #@test case._member_of_group._elements[0] == case
 
 
 

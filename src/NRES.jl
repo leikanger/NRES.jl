@@ -8,8 +8,9 @@ struct MuExS <: SAT_container
         new(nothing)
     end
 end
-function size(container::SAT_container)
-    return 0
+length(Nothing) = 0
+function Base.length(container::SAT_container)
+    length(container._elements)
 end
 
 
