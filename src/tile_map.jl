@@ -5,6 +5,7 @@ mutable struct Tile_map{T} <: Representation
     function Tile_map(arg::T) where {T}
         if(T<:Number)
             bolean_SAT_trait = T(0)
+            throw(ArgumentError("Dette er bare for demonstrasjon. Å bruke dette blir bare teit.."))
         else
             bolean_SAT_trait = T()
         end

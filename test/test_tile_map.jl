@@ -21,8 +21,12 @@ struct Dummy_type end
     @test isa(case._all_SAT[1], Dummy_type)
     " Point-NRES contains one element of the supplied type T "
 
-    case = NRES.Tile_map(42)
+    #case = NRES.Tile_map(42)
     #@test isa(case._all_SAT[1], Int)
+    #" Dette demonstrerer korleis det er mulig å skille mellom ulike typer i CTOR "
+    @test_throws ArgumentError NRES.Tile_map(42)
+    " Int doesn't have the necessary functions and properties to be a SAT: Error "
+
 
 end
 
