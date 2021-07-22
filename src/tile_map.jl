@@ -1,4 +1,4 @@
 
-mutable struct Tile_map
+mutable struct Tile_map <: Representation
 end
 
