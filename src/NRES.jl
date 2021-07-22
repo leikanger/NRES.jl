@@ -1,18 +1,9 @@
 module NRES
-include("node.jl")
-using .Node
 
-struct MuExS <: SAT_container
-    _elements::Union{Nothing, Array{SAT}}
-    function MuExS()
-        new(nothing)
-    end
-end
-length(Nothing) = 0
-function Base.length(container::SAT_container)
-    length(container._elements)
-end
+abstract type Representation end
+
+include("tile_map.jl")
 
 
-export Node, SAT, MuExS
+# export Node, SAT, MuExS
 end # module

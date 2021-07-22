@@ -8,7 +8,8 @@ using Test
 #   -> dimensjonalitet, type av conditionals, osv. er vidare definert av under-typer.
 =#
 
-@testset "construct place cell" begin
+@testset "test test" begin
+    
 end
 
 end#module TEST_NRES
