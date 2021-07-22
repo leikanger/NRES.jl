@@ -1,2 +1,2 @@
-# oppdater NRES.vim ved å kjøre vim-commandoen:  `:mksession ./NRES.vim`
-nvim -S ./NRES.vim
+# oppdater NRES.vim ved å kjøre vim-commandoen:  `:mksession ./session.vim
+nvim -S ./session.vim

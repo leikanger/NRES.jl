@@ -1,6 +1,28 @@
 module Node
 
-""" sat_container inherits to NRES, and can e.g. represent a mutually exclusive set of SAT """
+# NOT ACTIVE: WILL PROBABLY DELETE THIS FILE 
+#
+# TODO Delete this file? 
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+""" all_nodes is a container of type array<type(node)>, containing all nodes """
 abstract type SAT_container end
 
 """ A SAT is ALWAYS a member of a containing group! -- required ctor argument: member_of_group

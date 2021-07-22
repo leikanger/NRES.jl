@@ -2,6 +2,20 @@ module TEST_NODE
 using NRES
 using Test
 
+throw("error: node.jl (og test_node.jl): This file is not maintained: Planned for destruction.. ")
+# TODO Sjå førre linje
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 struct DUMMY_container <: NRES.SAT_container end
 
 @testset "SAT init" begin
