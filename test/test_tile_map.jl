@@ -2,8 +2,10 @@ module TEST_TILE_MAP
 using NRES
 using Test
 
+struct Dummy_type end
+
 @testset "Constructing Tile_map with dimensjonality ZERO" begin
-    case = NRES.Tile_map()
+    case = NRES.Tile_map{Dummy_type}()
     @test isa(case, NRES.Representation)
     " NRES.Tile_map with empty argument "
 
@@ -15,6 +17,12 @@ using Test
 
     @test length(case._all_SAT) == 1
     " A zero-dimentional tile-map has exactly on SAT in this array "
+
+    #case = NRES.Tile_map(42)
+    @show case._all_SAT[1]
+    @test isa(case._all_SAT[1], Dummy_type)
+    " Point-NRES contains one element of the supplied type T "
+
 
 end
 

@@ -1,9 +1,9 @@
 
-mutable struct Tile_map <: Representation
+mutable struct Tile_map{T} <: Representation
     _dimentionality
     _all_SAT
-    function Tile_map()
-        new(0, [Missing])
+    function Tile_map{T}() where {T}
+        new(0, [T()])
     end
 end
 
