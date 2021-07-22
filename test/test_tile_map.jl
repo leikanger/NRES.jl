@@ -18,11 +18,11 @@ struct Dummy_type end
     @test length(case._all_SAT) == 1
     " A zero-dimentional tile-map has exactly on SAT in this array "
 
-    #case = NRES.Tile_map(42)
-    @show case._all_SAT[1]
     @test isa(case._all_SAT[1], Dummy_type)
     " Point-NRES contains one element of the supplied type T "
 
+    case = NRES.Tile_map(42)
+    @test isa(case._all_SAT[1], Int)
 
 end
 
