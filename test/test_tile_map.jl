@@ -2,7 +2,12 @@ module TEST_TILE_MAP
 using NRES
 using Test
 
-struct Dummy_type end
+struct Dummy_type 
+    some_id
+    function Dummy_type()
+        some_id = new(rand())
+    end
+end
 
 @testset "Constructing Tile_map with dimensjonality ZERO" begin
     case = NRES.Tile_map{Dummy_type}()
@@ -21,18 +26,12 @@ struct Dummy_type end
     @test isa(case._all_SAT[1], Dummy_type)
     " Point-NRES contains one element of the supplied type T "
 
-    #case = NRES.Tile_map(42)
-    #@test isa(case._all_SAT[1], Int)
-    #" Dette demonstrerer korleis det er mulig å skille mellom ulike typer i CTOR "
-    @test_throws ArgumentError NRES.Tile_map(42)
-    " Int doesn't have the necessary functions and properties to be a SAT: Error "
-
-    case = NRES.Tile_map(Dummy_type())
+    case = NRES.Tile_map(the_sat = Dummy_type())
     @test isa(case._all_SAT[1], Dummy_type)
     " Tile map can be constructed by argument "
 
     the_dummy = Dummy_type()
-    case = NRES.Tile_map(the_dummy)
+    case = NRES.Tile_map(the_sat = the_dummy)
     @test case._all_SAT[1] === the_dummy
     " Equivalence: the supplied SAT becomes the 0-dim NRES consitional "
 end
