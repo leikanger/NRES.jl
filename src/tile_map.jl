@@ -2,8 +2,11 @@
 mutable struct Tile_map{T} <: Representation
     _dimentionality
     _all_SAT
-    function Tile_map(; the_sat::T=Missing, dim=Missing) where {T}
+    function Tile_map(; the_sat::T=missing, dim=missing) where {T}
         if !ismissing(the_sat)
+            if(!ismissing(dim) && dim!=0)
+                throw(ArgumentError("Trying to create NRES with one SAT but multi-dimensional Euclidean space; this does not make sense"))
+            end
             boolean_sat_trait = the_sat
         else
             boolean_sat_trait = T()
