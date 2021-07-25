@@ -44,19 +44,19 @@ end
 @testset "Constructing Tile_map with dimensjonality ONE" begin
     @testset "Range" begin
         steps_N = 2
-        @test_throws MethodError NRES.Tile_map{Dummy_type}(:anna_enn_nothing_eller_tuple)
-        @test_throws MethodError NRES.Tile_map{Dummy_type}((:ikkje_Real ,:endpoints))
+        @test_throws MethodError NRES.Tile_map{Dummy_type}(:anna_enn_nothing_eller_tuple, N=steps_N)
+        @test_throws MethodError NRES.Tile_map{Dummy_type}((:ikkje_Real ,:endpoints), N=steps_N)
         " Range skal være av type Tuple{<:Real, <:Real} : viser endepunkta på lineær akse "
 
         some_bolean_sat = Dummy_type()
-        @test_throws ArgumentError NRES.Tile_map{Dummy_type}((0,1), the_sat=some_bolean_sat)
+        @test_throws ArgumentError NRES.Tile_map{Dummy_type}((0,1), N=steps_N, the_sat=some_bolean_sat)
         " If the_sat is spesified, i.e. NRES with a single SAT, specifying a range trows ArgumentError "
 
-        case = NRES.Tile_map{Dummy_type}( (0.,2.) ) #[(0.,1.)])
+        case = NRES.Tile_map{Dummy_type}( (0.,2.), N=steps_N ) #[(0.,1.)])
         @test case._ranges == (0,2)
         " First argument is range: can be a tuple (A,B) that signifies from A to B "
 
-        @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3))
+        @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3), N=steps_N)
         " Range med meir enn to endepunkt kaster MethodError "
     end
     " Testset som ser på contrucksjon: Range. "
@@ -64,9 +64,13 @@ end
     @testset "Diskretisering" begin
         unit_range = (0.0, 1.0)
 
+        @test_throws ArgumentError NRES.Tile_map{Dummy_type}( unit_range, N=missing )
+
         case = NRES.Tile_map{Dummy_type}( unit_range, N=1 )
         @test length(case._all_SAT) == 1
         " With N=1, you get one SAT "
+
+        
 
         case = NRES.Tile_map{Dummy_type}( unit_range, N=2 )
         #@test length(case._all_SAT) == 2

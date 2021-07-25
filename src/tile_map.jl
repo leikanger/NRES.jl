@@ -3,10 +3,11 @@ mutable struct Tile_map{T} <: Representation
     _ranges
     _all_SAT
     function Tile_map{T}(range::Union{Nothing, Tuple{<:Real, <:Real}}; 
-                         N::Union{Int,Nothing}=nothing,    the_sat=missing) where {T}
+                         N::Union{Int,Missing}=missing,    the_sat=missing) where {T}
         if !ismissing(the_sat) && !isnothing(range)
             throw(ArgumentError("Cannot have a single SAT for a Euclidean range"))
         end
+        !isnothing(range) && ismissing(N)   &&   throw(ArgumentError("Range is supplied but not N"))
         # Trur denne er unødvendig, sjå proxy-ctor under.
         if isnothing(range) 
             if ismissing(the_sat)
