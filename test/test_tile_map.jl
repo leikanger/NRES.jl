@@ -70,11 +70,10 @@ end
         @test length(case._all_SAT) == 1
         " With N=1, you get one SAT "
 
-        
-
         case = NRES.Tile_map{Dummy_type}( unit_range, N=2 )
-        #@test length(case._all_SAT) == 2
+        @test length(case._all_SAT) == 2
         " With N=2, you get two SAT "
+
         # - N2 fører til vektor av {T} med lengde N
         # - Dersom N ikkje er oppgitt, men range er, så ArgumentError
         # - 

@@ -15,9 +15,12 @@ mutable struct Tile_map{T} <: Representation
             end
             the_SAT_vector = [the_sat]
         else
+            the_SAT_vector = []
+            for sat_number ∈ 1:N
+                push!(the_SAT_vector, sat_number)
+            end
             # Dersom N is nothing, kast en error.
             # Ellers: legg til N sat i vektoren _all_SAT
-            the_SAT_vector = [:må_fylles_med_SAT]
         end
 
         new{T}(range, the_SAT_vector)
