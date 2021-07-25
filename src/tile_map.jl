@@ -1,6 +1,7 @@
 
 mutable struct Tile_map{T} <: Representation
     _ranges
+    _number_of_intervals::Unsigned
     _all_SAT
     function Tile_map{T}(range::Union{Nothing, Tuple{<:Real, <:Real}}; 
                          N::Union{Int,Missing}=missing,    the_sat=missing) where {T}
@@ -14,6 +15,7 @@ mutable struct Tile_map{T} <: Representation
                 the_sat = T()
             end
             the_SAT_vector = [the_sat]
+            N = 1
         else
             the_SAT_vector = []
             for sat_number ∈ 1:N
@@ -23,7 +25,7 @@ mutable struct Tile_map{T} <: Representation
             # Ellers: legg til N sat i vektoren _all_SAT
         end
 
-        new{T}(range, the_SAT_vector)
+        new{T}(range, N, the_SAT_vector)
     end
 end
 
@@ -43,5 +45,14 @@ function dim_Euclidean_space(arg::Tile_map)
     return 0
 end
 
+"""
+    function map_to_SAT(nres::Tile_map, coordinate::Real)
+
+Map coordinate to NRES-til set. Foreløpig: coordinate er en skalar..
+"""    
+function map_to_SAT(nres::Tile_map, coordinate::Real)
+    #coordinate/nres.
+    return nres._all_SAT[1]
+end
 
 export dim_Euclidean_space

@@ -39,6 +39,9 @@ end
     #@test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=1) 
     #@test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=2) 
     " Spesified SAT (a single conditional) implies dim=0. If both args are specified: ArgumentError "
+
+    @test case._number_of_intervals == 1
+    " monosatian NRES have a single SAT => N=1 "
 end
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
@@ -58,6 +61,9 @@ end
 
         @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3), N=steps_N)
         " Range med meir enn to endepunkt kaster MethodError "
+
+        @test case._number_of_intervals == 2
+ # TODO FIKS KOMMENTAR:       " monosatian NRES have a single SAT => N=1 "
     end
     " Testset som ser på contrucksjon: Range. "
 
@@ -66,23 +72,42 @@ end
 
         @test_throws ArgumentError NRES.Tile_map{Dummy_type}( unit_range, N=missing )
 
-        case = NRES.Tile_map{Dummy_type}( unit_range, N=1 )
-        @test length(case._all_SAT) == 1
+        case_N1 = NRES.Tile_map{Dummy_type}( unit_range, N=1 )
+        @test length(case_N1._all_SAT) == 1
         " With N=1, you get one SAT "
 
-        case = NRES.Tile_map{Dummy_type}( unit_range, N=2 )
-        @test length(case._all_SAT) == 2
+        case_N2 = NRES.Tile_map{Dummy_type}( unit_range, N=2 )
+        @test length(case_N2._all_SAT) == 2
         " With N=2, you get two SAT "
 
-        # - N2 fører til vektor av {T} med lengde N
-        # - Dersom N ikkje er oppgitt, men range er, så ArgumentError
-        # - 
+        case_N3 = NRES.Tile_map{Dummy_type}( unit_range, N=3 )
+        @test length(case_N3._all_SAT) == 3
+        " With N=2, you get two SAT "
 
+        for it ∈ case_N3._all_SAT
+            isa(it, Dummy_type)
+        end
+        " All elements in vector is of type T "
+
+        # TODO     ### Lag en test for å verifisere at elementa er av type T
+        
+        @test case_N1._number_of_intervals == 1 
+        @test case_N2._number_of_intervals == 2 
+        @test case_N3._number_of_intervals == 3
+        " member variable that holds N "
+    
+        @test first(case_N1._all_SAT) == last(case_N1._all_SAT)
+        @test first(case_N2._all_SAT) != last(case_N2._all_SAT)
+        " N1: first = last. N2 first != last. "
+
+        @show case_N3
+        @test NRES.map_to_SAT(case_N2, first(unit_range)) == first(case_N2._all_SAT)
+        #@test NRES.map_to_SAT(case_N2, last(unit_range))  == last(case_N2._all_SAT)
+
+        # TODO Lag en convenience-funksjon for å gjøre det meir lettlest! first_sat(case) 
     end
 
 
-    # * ctor for dim=1
-    #   - gir 1D vektor med typer {T}
     # * range: Euclidean interval used.
     #   - vektor.first inneholder nedre posisjon
     #   - vektor.last  inneholder øvre posisjon 
