@@ -8,14 +8,18 @@ mutable struct Tile_map{T} <: Representation
             throw(ArgumentError("Cannot have a single SAT for a Euclidean range"))
         end
         # Trur denne er unødvendig, sjå proxy-ctor under.
-        if isnothing(range) && ismissing(the_sat)
-            the_sat = T()
-            range = nothing
+        if isnothing(range) 
+            if ismissing(the_sat)
+                the_sat = T()
+            end
+            the_SAT_vector = [the_sat]
+        else
+            # Dersom N is nothing, kast en error.
+            # Ellers: legg til N sat i vektoren _all_SAT
+            the_SAT_vector = [:må_fylles_med_SAT]
         end
 
-        #if range != nothing
-
-        new{T}(range, [the_sat])
+        new{T}(range, the_SAT_vector)
     end
 end
 
