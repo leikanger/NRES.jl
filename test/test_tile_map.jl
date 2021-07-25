@@ -42,7 +42,23 @@ end
 end
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
-    #case = NRES.Tile_map{Dummy_type}([0.,1.])
+    @test_throws MethodError NRES.Tile_map{Dummy_type}(:anna_enn_nothing_eller_tuple)
+    @test_throws MethodError NRES.Tile_map{Dummy_type}(:ikkje_Real ,:endpoints)
+    " Range skal være av type Tuple{<:Real, <:Real} : viser endepunkta på lineær akse "
+
+    some_bolean_sat = Dummy_type()
+    @test_throws ArgumentError NRES.Tile_map{Dummy_type}((0,1), the_sat=some_bolean_sat)
+    " If the_sat is spesified, i.e. NRES with a single SAT, specifying a range trows ArgumentError "
+
+    case = NRES.Tile_map{Dummy_type}( (0.,2.) ) #[(0.,1.)])
+    @test case._ranges == (0,2)
+    " First argument is range: can be a tuple (A,B) that signifies from A to B "
+
+    @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3))
+    " Range med meir enn to endepunkt kaster MethodError "
+
+    #@test length(case._ranges) = 1
+    #
     #@test dim_Euclidean_space(case) == 1
     
     # * ctor for dim=1
