@@ -26,23 +26,23 @@ end
     @test isa(case._all_SAT[1], Dummy_type)
     " Point-NRES contains one element of the supplied type T "
 
-    case = NRES.Tile_map(the_sat = Dummy_type())
+    case = NRES.Tile_map{Dummy_type}(the_sat = Dummy_type())
     @test isa(case._all_SAT[1], Dummy_type)
     " Tile map can be constructed by argument "
 
     the_dummy = Dummy_type()
-    case = NRES.Tile_map(the_sat = the_dummy)
+    case = NRES.Tile_map{Dummy_type}(the_sat = the_dummy)
     @test case._all_SAT[1] === the_dummy
     " Equivalence: the supplied SAT becomes the 0-dim NRES consitional "
 
-    NRES.Tile_map(the_sat=Dummy_type(), dim=0) # OK
-    @test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=1) 
-    @test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=2) 
+    NRES.Tile_map{Dummy_type}(the_sat=Dummy_type()) # OK
+    #@test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=1) 
+    #@test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=2) 
     " Spesified SAT (a single conditional) implies dim=0. If both args are specified: ArgumentError "
 end
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
-    #case = NRES.Tile_map{Dummy_type}(dim=1)
+    #case = NRES.Tile_map{Dummy_type}([0.,1.])
     #@test dim_Euclidean_space(case) == 1
     
     # * ctor for dim=1
