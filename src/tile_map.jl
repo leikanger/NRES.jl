@@ -9,7 +9,9 @@ mutable struct Tile_map{T} <: Representation
             end
             boolean_sat_trait = the_sat
         else
+            # HER : if dim==0, så:
             boolean_sat_trait = T()
+            # ELLERS: noke anna..
         end
         new{T}(0, [boolean_sat_trait])
     end

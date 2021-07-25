@@ -35,7 +35,10 @@ end
     @test case._all_SAT[1] === the_dummy
     " Equivalence: the supplied SAT becomes the 0-dim NRES consitional "
 
+    NRES.Tile_map(the_sat=Dummy_type(), dim=0) # OK
     @test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=1) 
+    @test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=2) 
+    " Spesified SAT (a single conditional) implies dim=0. If both args are specified: ArgumentError "
 end
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
