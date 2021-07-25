@@ -42,25 +42,36 @@ end
 end
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
-    @test_throws MethodError NRES.Tile_map{Dummy_type}(:anna_enn_nothing_eller_tuple)
-    @test_throws MethodError NRES.Tile_map{Dummy_type}(:ikkje_Real ,:endpoints)
-    " Range skal være av type Tuple{<:Real, <:Real} : viser endepunkta på lineær akse "
+    @testset "Range" begin
+        steps_N = 2
+        @test_throws MethodError NRES.Tile_map{Dummy_type}(:anna_enn_nothing_eller_tuple)
+        @test_throws MethodError NRES.Tile_map{Dummy_type}((:ikkje_Real ,:endpoints))
+        " Range skal være av type Tuple{<:Real, <:Real} : viser endepunkta på lineær akse "
 
-    some_bolean_sat = Dummy_type()
-    @test_throws ArgumentError NRES.Tile_map{Dummy_type}((0,1), the_sat=some_bolean_sat)
-    " If the_sat is spesified, i.e. NRES with a single SAT, specifying a range trows ArgumentError "
+        some_bolean_sat = Dummy_type()
+        @test_throws ArgumentError NRES.Tile_map{Dummy_type}((0,1), the_sat=some_bolean_sat)
+        " If the_sat is spesified, i.e. NRES with a single SAT, specifying a range trows ArgumentError "
 
-    case = NRES.Tile_map{Dummy_type}( (0.,2.) ) #[(0.,1.)])
-    @test case._ranges == (0,2)
-    " First argument is range: can be a tuple (A,B) that signifies from A to B "
+        case = NRES.Tile_map{Dummy_type}( (0.,2.) ) #[(0.,1.)])
+        @test case._ranges == (0,2)
+        " First argument is range: can be a tuple (A,B) that signifies from A to B "
 
-    @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3))
-    " Range med meir enn to endepunkt kaster MethodError "
+        @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3))
+        " Range med meir enn to endepunkt kaster MethodError "
+    end
+    " Testset som ser på contrucksjon: Range. "
 
-    #@test length(case._ranges) = 1
-    #
-    #@test dim_Euclidean_space(case) == 1
-    
+    @testset "Diskretisering" begin
+        unit_range = (0.0, 1.0)
+
+        case = NRES.Tile_map{Dummy_type}( unit_range, N=1 )
+        # - N2 fører til vektor av {T} med lengde N
+        # - Dersom N ikkje er oppgitt, men range er, så ArgumentError
+        # - 
+
+    end
+
+
     # * ctor for dim=1
     #   - gir 1D vektor med typer {T}
     # * range: Euclidean interval used.
