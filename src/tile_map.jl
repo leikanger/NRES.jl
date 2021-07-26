@@ -1,3 +1,6 @@
+# NOTATER: Det er øpv å skrive følgande (gitt at TemporalType er "using"-introdusert i moder-module.
+#   NyStruct <: TemporalType
+
 
 mutable struct Tile_map{T} <: Representation
     _ranges

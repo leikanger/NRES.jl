@@ -42,8 +42,6 @@ end
     " Equivalence: the supplied SAT becomes the 0-dim NRES consitional "
 
     NRES.Tile_map{Dummy_type}(the_sat=Dummy_type()) # OK
-    #@test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=1) 
-    #@test_throws ArgumentError NRES.Tile_map(the_sat=Dummy_type(), dim=2) 
     " Spesified SAT (a single conditional) implies dim=0. If both args are specified: ArgumentError "
 
     @test case._number_of_intervals == 1

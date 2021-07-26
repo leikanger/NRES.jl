@@ -1,5 +1,8 @@
 module NRES
 
+# TODO TemporalType kan også includeres ved "using SAT" inne i NRES-module! 
+# -> Vi kan mao. gå ut fra activate!(TemporalType) , deactivate!, is_active, osv..
+
 abstract type Representation end
 
 include("tile_map.jl")
