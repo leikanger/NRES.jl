@@ -16,6 +16,8 @@ mutable struct Tile_map{T} <: Representation
         if isnothing(interval) 
             if ismissing(the_sat)
                 the_sat_vector = [T()]
+            else
+                the_sat_vector = [the_sat]
             end
             N = 1
         else

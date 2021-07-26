@@ -15,7 +15,6 @@ struct Dummy_type
     end
 end
 
-#=
 @testset "Constructing Tile_map with dimensjonality ZERO" begin
     case = NRES.Tile_map{Dummy_type}()
     @test isa(case, NRES.Representation)
@@ -50,7 +49,6 @@ end
     @test case._number_of_intervals == 1
     " monosatian NRES have a single SAT => N=1 "
 end
-=#
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
     @testset "Range" begin
@@ -119,21 +117,7 @@ end
         @test_throws ArgumentError NRES.map_to_SAT(case_N2, first(unit_range)-0.001)
         @test_throws ArgumentError NRES.map_to_SAT(case_N2, last(unit_range)+0.001)
         " Utafor ytterpunkta: Kastar ArgumentError "
-
-        # TODO Lag en convenience-funksjon for å gjøre det meir lettlest! first_sat(case) 
     end
-
-
-    # * range: Euclidean interval used.
-    #   - vektor.first inneholder nedre posisjon
-    #   - vektor.last  inneholder øvre posisjon 
-    # * N: How many parts the axis is divided into
-    #   - N == 0 throws error
-    #   - N == 1 gir zeroDim NRES
-    #   - N == 2    =>  vektor.first != vektor.last
-    #   - N == 2    =>  posisjon: øvre posisjon gir annen retur-T enn pos:nedre-posisjon av range.
-    #   - N == 3    =>  
-    # - 
 end
 
 end # module TEST_TILE_MAP
