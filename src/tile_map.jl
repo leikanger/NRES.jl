@@ -2,30 +2,33 @@
 mutable struct Tile_map{T} <: Representation
     _ranges
     _number_of_intervals::Unsigned
-    _all_SAT
-    function Tile_map{T}(range::Union{Nothing, Tuple{<:Real, <:Real}}; 
+    _all_SAT #::Vector{T}
+    function Tile_map{T}(interval::Union{Nothing, Tuple{<:Real, <:Real}}; 
                          N::Union{Int,Missing}=missing,    the_sat=missing) where {T}
-        if !ismissing(the_sat) && !isnothing(range)
-            throw(ArgumentError("Cannot have a single SAT for a Euclidean range"))
+
+        if !ismissing(the_sat) && !isnothing(interval)
+            throw(ArgumentError("Cannot have a single SAT for a Euclidean interval"))
         end
-        !isnothing(range) && ismissing(N)   &&   throw(ArgumentError("Range is supplied but not N"))
+        !isnothing(interval) && ismissing(N)   &&   throw(ArgumentError("Interv is supplied but not N"))
         # Trur denne er unødvendig, sjå proxy-ctor under.
-        if isnothing(range) 
+        #
+        the_sat_vector = []
+        if isnothing(interval) 
             if ismissing(the_sat)
-                the_sat = T()
+                the_sat_vector = [T()]
             end
-            the_SAT_vector = [the_sat]
             N = 1
         else
-            the_SAT_vector = []
-            for sat_number ∈ 1:N
-                push!(the_SAT_vector, sat_number)
-            end
             # Dersom N is nothing, kast en error.
-            # Ellers: legg til N sat i vektoren _all_SAT
+            for i in first(interval):1/N:last(interval)
+                push!(the_sat_vector, T(i))
+            end
+            # Remove last?
+            pop!(the_sat_vector)
+            # the_map = Dict(i => T(10*i) for i=range(first(interval)), last(interval), length=1/N)
         end
 
-        new{T}(range, N, the_SAT_vector)
+        new{T}(interval, N, the_sat_vector)
     end
 end
 
@@ -33,7 +36,6 @@ function Tile_map{T}(;the_sat=missing) where {T}
     if ismissing(the_sat)
         the_sat = T()        
     end
-#Tile_map{T}() where {T<:Real} = Tile_map{T}(nothing, the_sat=T(0), dim=0) 
     Tile_map{T}(nothing, the_sat=the_sat)
 end
 
@@ -51,8 +53,17 @@ end
 Map coordinate to NRES-til set. Foreløpig: coordinate er en skalar..
 """    
 function map_to_SAT(nres::Tile_map, coordinate::Real)
-    #coordinate/nres.
-    return nres._all_SAT[1]
+    if coordinate < first(nres._ranges) || coordinate > last(nres._ranges)
+        throw(ArgumentError(string("Coordinate ", coordinate, " is not in range ", nres._ranges)))
+    end
+    
+    # Easy with 1D coordinate = ℜ¹
+    value_list = range(first(nres._ranges), last(nres._ranges), length=nres._number_of_intervals)
+    # 1: finn indeks til første verdi over coordinate.
+    indeks = findfirst(value_list.>=coordinate) 
+    # 2: bruk denne indeks for å hente ut tilhørande SAT. 
+    nres._all_SAT[indeks]
+    # 3: returner.
 end
 
 export dim_Euclidean_space

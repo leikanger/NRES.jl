@@ -4,11 +4,18 @@ using Test
 
 struct Dummy_type 
     some_id
-    function Dummy_type()
-        some_id = new(rand())
+    some_more
+    function Dummy_type(arg=nothing)
+        if !isnothing(arg)
+            some_id = arg
+        else
+            some_id = new(rand())
+        end
+        new(some_id, Nothing)
     end
 end
 
+#=
 @testset "Constructing Tile_map with dimensjonality ZERO" begin
     case = NRES.Tile_map{Dummy_type}()
     @test isa(case, NRES.Representation)
@@ -43,6 +50,7 @@ end
     @test case._number_of_intervals == 1
     " monosatian NRES have a single SAT => N=1 "
 end
+=#
 
 @testset "Constructing Tile_map with dimensjonality ONE" begin
     @testset "Range" begin
@@ -82,27 +90,35 @@ end
 
         case_N3 = NRES.Tile_map{Dummy_type}( unit_range, N=3 )
         @test length(case_N3._all_SAT) == 3
-        " With N=2, you get two SAT "
+        " With N=3, you get three SAT "
+
+        case = NRES.Tile_map{Dummy_type}( unit_range, N=100 )
+        @test length(case._all_SAT) == 100
+        " With N=100, you get 100 SAT "
 
         for it ∈ case_N3._all_SAT
             isa(it, Dummy_type)
         end
         " All elements in vector is of type T "
 
-        # TODO     ### Lag en test for å verifisere at elementa er av type T
-        
         @test case_N1._number_of_intervals == 1 
         @test case_N2._number_of_intervals == 2 
         @test case_N3._number_of_intervals == 3
+        @test case._number_of_intervals == 100
         " member variable that holds N "
     
         @test first(case_N1._all_SAT) == last(case_N1._all_SAT)
         @test first(case_N2._all_SAT) != last(case_N2._all_SAT)
         " N1: first = last. N2 first != last. "
 
-        @show case_N3
+        # TODO Gjør BoundsError bedre: gjør en test i map_to_SAT som sjekker bounds?
         @test NRES.map_to_SAT(case_N2, first(unit_range)) == first(case_N2._all_SAT)
-        #@test NRES.map_to_SAT(case_N2, last(unit_range))  == last(case_N2._all_SAT)
+        @test NRES.map_to_SAT(case_N2, last(unit_range))  == last(case_N2._all_SAT)
+        " Ytterpunkta: I N2 gir first coordinate den første SAT, og last coordinate siste SAT "
+
+        @test_throws ArgumentError NRES.map_to_SAT(case_N2, first(unit_range)-0.001)
+        @test_throws ArgumentError NRES.map_to_SAT(case_N2, last(unit_range)+0.001)
+        " Utafor ytterpunkta: Kastar ArgumentError "
 
         # TODO Lag en convenience-funksjon for å gjøre det meir lettlest! first_sat(case) 
     end
