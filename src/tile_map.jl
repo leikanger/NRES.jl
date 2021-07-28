@@ -1,9 +1,9 @@
 # NOTATER: Det er øpv å skrive følgande (gitt at TemporalType er "using"-introdusert i moder-module.
 #   NyStruct <: TemporalType
-
+# TODO: Du kan kjøre T<:TemporalType !
 
 mutable struct Tile_map{T} <: Representation
-    _ranges
+    _range
     _number_of_intervals::Unsigned
     _all_SAT #::Vector{T}
     function Tile_map{T}(interval::Union{Nothing, Tuple{<:Real, <:Real}}; 
@@ -44,31 +44,42 @@ function Tile_map{T}(;the_sat=missing) where {T}
     Tile_map{T}(nothing, the_sat=the_sat)
 end
 
-function dim_Euclidean_space(arg::Tile_map)
-    # TODO member variable _dimentionality TO BE REMOVED!
-    # (length(_ranges) eller noke er bedre! )
-    # (( men hugs at punkt-oppføringer i Tile map er ekvivalent med bolean conditional))
-    # (( .. og håndteres likt ))
-    return 0
+function dimention_of_NRES(arg::Tile_map)
+    if isnothing(arg._range)
+        return 0
+    else
+        return 1
+    end
+    # (plan: kan den være rekursiv for composite NRES? )
 end
 
 """
     function map_to_SAT(nres::Tile_map, coordinate::Real)
 
-Map coordinate to NRES-til set. Foreløpig: coordinate er en skalar..
+Map scalar coordinate to NRES-til set.
 """    
 function map_to_SAT(nres::Tile_map, coordinate::Real)
-    if coordinate < first(nres._ranges) || coordinate > last(nres._ranges)
-        throw(ArgumentError(string("Coordinate ", coordinate, " is not in range ", nres._ranges)))
+    # TODO TODO  Kkjlør TDD
+    # 
+    # kjør full TDD her, dene må testas!
+    #
+    #
+    #
+    if isnothing(nres._range)
+        return nres._all_SAT[1]
     end
-    
-    # Easy with 1D coordinate = ℜ¹
-    value_list = range(first(nres._ranges), last(nres._ranges), length=nres._number_of_intervals)
-    # 1: finn indeks til første verdi over coordinate.
+
+    # Assuming 1D coordinate (c ∈ ℜ¹) within range of NRES: 
+    if coordinate < first(nres._range) || coordinate > last(nres._range)
+        throw(ArgumentError(string("Coordinate ", coordinate, " is not in range ", nres._range)))
+    end
+     
+    # 0: create a linspace with the same steps
+    value_list = range(first(nres._range), last(nres._range), length=nres._number_of_intervals)
+    # 1: find index of first entry above coordinate value
     indeks = findfirst(value_list.>=coordinate) 
-    # 2: bruk denne indeks for å hente ut tilhørande SAT. 
+    # 2: Use this index when conllecting corresponding SAT from NRES map:
     nres._all_SAT[indeks]
-    # 3: returner.
 end
 
-export dim_Euclidean_space
+export dimention_of_NRES

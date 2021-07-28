@@ -20,8 +20,11 @@ end
     @test isa(case, NRES.Representation)
     " NRES.Tile_map with empty argument "
 
-    @test dim_Euclidean_space(case) == 0
-    " The NRES.Tile_map() empty ctor gives a zero-dimentional Tile_map (a point-representation) "
+    @test isnothing(case._range)
+    " NRES with empty argument becomes a range-less zero-dimentional NRES "
+
+    @test dimention_of_NRES(case) == 0
+    " Range-less NRES: a zero-dimentional Tile_map (a point-representation) "
 
     @test isa(case._all_SAT, Array)
     " Even zero-dimensional NRES maps have an array of SAT "
@@ -60,14 +63,16 @@ end
         " If the_sat is spesified, i.e. NRES with a single SAT, specifying a range trows ArgumentError "
 
         case = NRES.Tile_map{Dummy_type}( (0.,2.), N=steps_N ) #[(0.,1.)])
-        @test case._ranges == (0,2)
+        @test case._range == (0,2)
         " First argument is range: can be a tuple (A,B) that signifies from A to B "
 
         @test_throws MethodError NRES.Tile_map{Dummy_type}((1,2,3), N=steps_N)
         " Range med meir enn to endepunkt kaster MethodError "
 
         @test case._number_of_intervals == 2
- # TODO FIKS KOMMENTAR:       " monosatian NRES have a single SAT => N=1 "
+
+        @test dimention_of_NRES(case) == 1
+        
     end
     " Testset som ser på contrucksjon: Range. "
 
