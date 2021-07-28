@@ -12,6 +12,7 @@ Representation interface:
 abstract type Representation end
 
 include("tile_map.jl")
+include("composite_map.jl")
 
 
 # export Node, SAT, MuExS
