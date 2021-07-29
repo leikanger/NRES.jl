@@ -26,6 +26,9 @@ end
     @test dimention_of_NRES(case) == 0
     " Range-less NRES: a zero-dimentional Tile_map (a point-representation) "
 
+    @test isa(NRES.map_to_SAT(case), Dummy_type)
+    " map_to_SAT(case) returns the one SAT of the 0dim NRES "
+
     @test isa(case._all_SAT, Array)
     " Even zero-dimensional NRES maps have an array of SAT "
 
@@ -70,8 +73,13 @@ end
         " Range med meir enn to endepunkt kaster MethodError "
 
         @test case._number_of_intervals == 2
+        " How many steps N? "
 
         @test dimention_of_NRES(case) == 1
+        " dimention_of_NRES with range should be one "
+
+        @test_throws ArgumentError NRES.map_to_SAT(case)
+        " Map NRES to SAT in NRES with range but no supplied coord? Error! "
         
     end
     " Testset som ser på contrucksjon: Range. "
@@ -113,12 +121,12 @@ end
         " N1: first = last. N2 first != last. "
 
         # TODO Gjør BoundsError bedre: gjør en test i map_to_SAT som sjekker bounds?
-        @test NRES.map_to_SAT(case_N2, first(unit_range)) == first(case_N2._all_SAT)
-        @test NRES.map_to_SAT(case_N2, last(unit_range))  == last(case_N2._all_SAT)
+        @test NRES.map_to_SAT(case_N2, coordinate = first(unit_range)) == first(case_N2._all_SAT)
+        @test NRES.map_to_SAT(case_N2, coordinate = last(unit_range))  == last(case_N2._all_SAT)
         " Ytterpunkta: I N2 gir first coordinate den første SAT, og last coordinate siste SAT "
 
-        @test_throws ArgumentError NRES.map_to_SAT(case_N2, first(unit_range)-0.001)
-        @test_throws ArgumentError NRES.map_to_SAT(case_N2, last(unit_range)+0.001)
+        @test_throws ArgumentError NRES.map_to_SAT(case_N2, coordinate = first(unit_range)-0.001)
+        @test_throws ArgumentError NRES.map_to_SAT(case_N2, coordinate = last(unit_range)+0.001)
         " Utafor ytterpunkta: Kastar ArgumentError "
     end
 end

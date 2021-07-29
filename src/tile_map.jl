@@ -58,7 +58,7 @@ end
 
 Map scalar coordinate to NRES-til set.
 """    
-function map_to_SAT(nres::Tile_map, coordinate::Real)
+function map_to_SAT(nres::Tile_map; coordinate::Union{Real, Missing}=missing)
     # TODO TODO  Kkjlør TDD
     # 
     # kjør full TDD her, dene må testas!
@@ -68,6 +68,9 @@ function map_to_SAT(nres::Tile_map, coordinate::Real)
     if isnothing(nres._range)
         return nres._all_SAT[1]
     end
+    ismissing(coordinate) && throw(ArgumentError("map_to_SAT(1D_nres) with no coord? Error!"))
+
+    # TODO TEST_coordinate is missing when range is not missing: Should raise error! 
 
     # Assuming 1D coordinate (c ∈ ℜ¹) within range of NRES: 
     if coordinate < first(nres._range) || coordinate > last(nres._range)
