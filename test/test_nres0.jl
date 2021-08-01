@@ -17,11 +17,13 @@ end
 
 
 @testset "Constructor NRES-0" begin
-    case = NRES.NRES_0()
-    @test isa(case, NRES.NRES_0)
+    case = NRES_0()
+    @test isa(case, NRES_0)
     " Can concstruct nres_0 with empty argument "
 
     @test isa(case, NRES.Representation)
+    " NRES_0 is a NRES.Representation "
+
 end
 
 end #module TEST_NRES_0
