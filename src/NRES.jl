@@ -11,10 +11,13 @@ Representation interface:
 """
 abstract type Representation end
 # TODO: PLAN:
+#   - function get_for_coord(coord, Repr.)
+#
+#   - function active_traits_in(map::Representation)
 #   - treng mdl-variabel the_active_trait::T
+#
 #   - treng funktion activate_in_muex!(map::Representation, trait::T)
 #       -> activates trait and deactivates current trait (if any). Save as prev. active (for learning)?
-#   - function active_trait_in(map::Representation)
 
 #function the_active_trait_in_muex(map::Representation)
 
@@ -28,6 +31,9 @@ Type for representing SAT and other elements that can partake in a temporal sequ
 """
 abstract type TemporalType end
 
+abstract type SAT end
+
+include("nres0.jl")
 include("tile_map.jl")
 include("composite_map.jl")
 

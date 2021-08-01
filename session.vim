@@ -9,7 +9,7 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 README.md
-badd +1 test/runtests.jl
+badd +7 test/runtests.jl
 badd +17 test/test_NRES.jl
 badd +1 src/NRES.jl
 badd +5 test/test_node.jl
@@ -19,6 +19,8 @@ badd +2 test/test_tile_map.jl
 badd +1 src/tile_map.jl
 badd +0 test/test_composite_map.jl
 badd +0 src/composite_map.jl
+badd +1 test/test_nres0.jl
+badd +0 src/nres0.jl
 argglobal
 %argdel
 $argadd README.md
@@ -26,26 +28,9 @@ set stal=2
 tabnew
 tabnew
 tabnew
+tabnew
 tabrewind
 edit README.md
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
-exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -63,32 +48,6 @@ keepjumps exe s:l
 normal! zt
 keepjumps 1
 normal! 06|
-wincmd w
-argglobal
-if bufexists("test/runtests.jl") | buffer test/runtests.jl | else | edit test/runtests.jl | endif
-if &buftype ==# 'terminal'
-  silent file test/runtests.jl
-endif
-balt README.md
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let &fdl = &fdl
-let s:l = 5 - ((4 * winheight(0) + 26) / 53)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 5
-normal! 015|
-wincmd w
-exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
-exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
 tabnext
 edit test/runtests.jl
 let s:save_splitbelow = &splitbelow
@@ -119,11 +78,11 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 6 - ((5 * winheight(0) + 26) / 53)
+let s:l = 5 - ((4 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
+keepjumps 5
 normal! 027|
 wincmd w
 argglobal
@@ -142,12 +101,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 15 - ((14 * winheight(0) + 26) / 53)
+let s:l = 19 - ((18 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 15
-normal! 027|
+keepjumps 19
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
 exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
@@ -206,13 +165,74 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 25 - ((24 * winheight(0) + 26) / 53)
+let s:l = 1 - ((0 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 25
-normal! 017|
+keepjumps 1
+normal! 0
 wincmd w
+exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
+tabnext
+edit test/test_nres0.jl
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
+exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
+argglobal
+balt src/tile_map.jl
+setlocal fdm=marker
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 4 - ((3 * winheight(0) + 26) / 53)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 4
+normal! 0
+wincmd w
+argglobal
+if bufexists("src/nres0.jl") | buffer src/nres0.jl | else | edit src/nres0.jl | endif
+if &buftype ==# 'terminal'
+  silent file src/nres0.jl
+endif
+balt test/test_nres0.jl
+setlocal fdm=marker
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 1 - ((0 * winheight(0) + 26) / 53)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! 0
+wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
 exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
 tabnext
@@ -245,12 +265,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 6 - ((5 * winheight(0) + 26) / 53)
+let s:l = 44 - ((43 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 6
-normal! 030|
+keepjumps 44
+normal! 05|
 wincmd w
 argglobal
 if bufexists("src/composite_map.jl") | buffer src/composite_map.jl | else | edit src/composite_map.jl | endif
@@ -266,12 +286,12 @@ setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 26) / 53)
+let s:l = 13 - ((12 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 13
+normal! 020|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 106 + 106) / 213)
 exe 'vert 2resize ' . ((&columns * 106 + 106) / 213)
