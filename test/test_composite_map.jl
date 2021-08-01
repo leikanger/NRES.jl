@@ -41,7 +41,9 @@ deactivate!(case)
     " Creating a composite NRES of two boolean NRES stores them as member variables "
 
     activate!(NRES.map_to_SAT(boolean_nres1))
-    #@test get_value(case) == false
+    #@test NRES.active_sat_in(case) == nothing
+    activate!(NRES.map_to_SAT(boolean_nres2))
+    # @test is_active(case) == true
 
 
 end
