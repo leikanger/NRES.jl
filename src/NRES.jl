@@ -28,6 +28,9 @@ Type for representing SAT and other elements that can partake in a temporal sequ
 """
 abstract type TemporalType end
 
+abstract type SAT end
+
+include("nres0.jl")
 include("tile_map.jl")
 include("composite_map.jl")
 
