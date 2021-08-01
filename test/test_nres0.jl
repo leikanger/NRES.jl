@@ -5,11 +5,7 @@ using Test
 struct Dummy_SAT
     some_id
     function Dummy_type(arg=nothing)
-        if !isnothing(arg)
-            some_id = arg
-        else
-            some_id = new(rand())
-        end
+        some_id = new(rand())
         new(some_id)
     end
 end
@@ -23,6 +19,12 @@ end
 
     @test isa(case, NRES.Representation)
     " NRES_0 is a NRES.Representation "
+
+    @test isnothing(NRES.active_traits_for())
+    " By default: active_traits_for() is nothing "
+
+    @test isnothing(NRES.active_traits_for(case))
+    " .. and same for NRES_0 without conditional "
 
 end
 
