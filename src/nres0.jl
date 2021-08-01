@@ -1,2 +1,2 @@
-struct nres_0
+struct NRES_0 <: Representation
 end
