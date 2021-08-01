@@ -11,6 +11,7 @@ mutable struct Dummy_trait
     end
 end
 activate!(it::Dummy_trait) = it._is_active = true
+deactivate!(it::Dummy_trait) = it._is_active = false
 is_active(it::Dummy_trait) = it._is_active
 
 
@@ -38,6 +39,8 @@ is_active(it::Dummy_trait) = it._is_active
     @test NRES.active_traits_for(case) == the_SAT
     " activate the SAT, and active_traits_for(boolean_NRES) returns the_SAT of the nres0 "
 
+    deactivate!(the_SAT)
+    @test NRES.active_traits_for(case) == nothing
 
 end
 
