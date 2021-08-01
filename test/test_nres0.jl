@@ -2,13 +2,16 @@ module TEST_NRES_0
 using NRES
 using Test
 
-struct Dummy_SAT
+mutable struct Dummy_trait
     some_id
-    function Dummy_type(arg=nothing)
+    _is_active
+    function Dummy_trait()
         some_id = new(rand())
-        new(some_id)
+        new(some_id, false)
     end
 end
+activate!(it::Dummy_trait) = it._is_active = true
+is_active(it::Dummy_trait) = it._is_active
 
 
 
@@ -25,6 +28,16 @@ end
 
     @test isnothing(NRES.active_traits_for(case))
     " .. and same for NRES_0 without conditional "
+
+    the_SAT = Dummy_trait()
+    case = NRES_0( the_SAT )
+    @test isnothing(NRES.active_traits_for(case))
+    " active_traits_for(case) returns nothing if case trait is false (default for Dummy_trait) "
+
+    activate!(the_SAT)
+    @test NRES.active_traits_for(case) == the_SAT
+    " activate the SAT, and active_traits_for(boolean_NRES) returns the_SAT of the nres0 "
+
 
 end
 
