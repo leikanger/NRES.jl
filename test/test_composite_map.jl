@@ -39,10 +39,23 @@ deactivate!(case)
     @test case._nres1 == boolean_nres1
     @test case._nres2 == boolean_nres2
     " Creating a composite NRES of two boolean NRES stores them as member variables "
+end
 
-    activate!(NRES.map_to_SAT(boolean_nres1))
-    #@test NRES.active_sat_in(case) == nothing
-    activate!(NRES.map_to_SAT(boolean_nres2))
+@testset "Composite map function" begin
+    satA = Dummy_SAT()  # inactive by default
+    satB = Dummy_SAT()  # inactive by default
+    n0_A = NRES_0(satA)
+    n0_B = NRES_0(satB)
+    case = Composite_map(n0_A, n0_B)
+
+    @test isempty(NRES.active_sat_in(case))
+    " both NRES0 A and B is inactive: active sat in composite map is empty vector "
+
+    activate!(satA)
+    activate!(satB)
+    #@test NRES.active_sat_in(case) == [satA, satB]
+
+    #activate!(NRES.active_sat_in())
     # @test is_active(case) == true
 
 

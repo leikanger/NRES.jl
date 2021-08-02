@@ -12,6 +12,7 @@ mutable struct Dummy_trait
 end
 activate!(it::Dummy_trait)   = (it._is_active = true)
 deactivate!(it::Dummy_trait) = (it._is_active = false)
+deactivate!(Nothing) = nothing
 is_active(it::Dummy_trait)   = it._is_active
 
 
@@ -24,23 +25,26 @@ is_active(it::Dummy_trait)   = it._is_active
     @test isa(case, NRES.Representation)
     " NRES_0 is a NRES.Representation "
 
-    @test isnothing(NRES.active_traits_for())
+    @test isempty(NRES.active_traits_for())
     " By default: active_traits_for() is nothing "
 
-    @test isnothing(NRES.active_traits_for(case))
+    @test isempty(NRES.active_traits_for(case))
     " .. and same for NRES_0 without conditional "
 
     the_SAT = Dummy_trait()
     case = NRES_0( the_SAT )
-    @test isnothing(NRES.active_traits_for(case))
+    @test isempty(NRES.active_traits_for(case))
     " active_traits_for(case) returns nothing if case trait is false (default for Dummy_trait) "
 
     activate!(the_SAT)
-    @test NRES.active_traits_for(case) == the_SAT
+    @test NRES.active_traits_for(case) == [the_SAT]
     " When SAT is active, active_traits_for(boolean_NRES) returns the_SAT of the nres0 "
 
-    deactivate!(active_traits_for(case))
-    @test NRES.active_traits_for(case) == nothing
+    # Deactivate "all" one SAT in nres0:
+    for it ∈ active_traits_for(case)
+        deactivate!(it)
+    end
+    @test isempty(NRES.active_traits_for(case))
     " Deactivate the sat => active_traits_for(nres0) is nothing "
 end
 
