@@ -10,8 +10,8 @@ mutable struct Dummy_trait
         new(some_id, false)
     end
 end
-activate!(it::Dummy_trait)   = it._is_active = true
-deactivate!(it::Dummy_trait) = it._is_active = false
+activate!(it::Dummy_trait)   = (it._is_active = true)
+deactivate!(it::Dummy_trait) = (it._is_active = false)
 is_active(it::Dummy_trait)   = it._is_active
 
 

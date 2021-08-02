@@ -14,9 +14,9 @@ mutable struct Dummy_SAT
         new(some_id, false)
     end
 end
-is_active(it::Dummy_SAT) = it._is_active
-activate!(it::Dummy_SAT) = it._is_active = true
-deactivate!(it::Dummy_SAT) = it._is_active = false
+activate!(it::Dummy_SAT)   = (it._is_active = true)
+deactivate!(it::Dummy_SAT) = (it._is_active = false)
+is_active(it::Dummy_SAT)   = it._is_active
 
 case = Dummy_SAT()
 @test !is_active(case)
