@@ -39,7 +39,7 @@ is_active(it::Dummy_trait)   = it._is_active
     @test NRES.active_traits_for(case) == the_SAT
     " When SAT is active, active_traits_for(boolean_NRES) returns the_SAT of the nres0 "
 
-    deactivate!(the_SAT)
+    deactivate!(active_traits_for(case))
     @test NRES.active_traits_for(case) == nothing
     " Deactivate the sat => active_traits_for(nres0) is nothing "
 end

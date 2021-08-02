@@ -19,4 +19,4 @@ active_traits_for()             = nothing
 active_traits_for(arg::NRES_0)  = is_active(arg.nres_trait) ? arg.nres_trait : nothing
 
 
-export NRES_0
+export NRES_0, active_traits_for
