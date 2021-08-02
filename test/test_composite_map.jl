@@ -59,16 +59,33 @@ end
     @test NRES.active_traits_for(case) == [satA, satB]
     " When satA and satB is active, return both SAT "
 
-    # satC = Dummy_SAT()  # inactive by default
-    # n0_C = NRES_0(satC)
-    # case_composite2 = Composite_map(case, n0_C)
-    # @test NRES.active_traits_for(case_composite2) == [satA, satB]
+    # PLAN: Når det blir nødvendig, fiks CTOR slik at composite-of-composites er mulig for map
+    # (dette krever en ctor med 
+    satC = Dummy_SAT()  # inactive by default
+    n0_C = NRES_0(satC)
+    case_composite2 = Composite_map(case, n0_C)
+    @test NRES.active_traits_for(case_composite2) == [satA, satB]
     " Before the SAT of the new NRES is active, composite-of-composites returns same as previous test "
+    
+    activate!(satC)
+    @test NRES.active_traits_for(case_composite2) == [satA, satB, satC]
+    " Activate satC, and all three SAT are returned: composite map can be combines with nres0 "
 
-    #activate!(NRES.active_traits_for())
-    # @test is_active(case) == true
+    satD = Dummy_SAT()  # inactive by default
+    n0_D = NRES_0(satD)
+    part1 = case                        # A & B 
+    part2 = Composite_map(n0_C, n0_D)   # C & D
+    composite_of_composites = Composite_map(part1, part2)
+    @test NRES.active_traits_for(composite_of_composites) == [satA, satB, satC]
+    " Composite of composite maps also returns [A, B, C] (the active SAT) "
 
+    activate!(satD)
+    @test NRES.active_traits_for(composite_of_composites) == [satA, satB, satC, satD]
+    " .. before we also active satD, giving list of all SAT "
 
+    deactivate!(satA)
+    @test NRES.active_traits_for(composite_of_composites) == [satB, satC, satD]
+    " .. before we deactive satA, giving list without satA "
 end
 
 end # module TEST_COMPOSITE_MAP

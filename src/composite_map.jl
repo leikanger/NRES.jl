@@ -1,10 +1,10 @@
 """
 """
-struct Composite_map{T}
+struct Composite_map{T, L} <: Representation
     _nresA::T
-    _nresB::T
-    function Composite_map(nresA::T, nresB::T) where {T<:Representation}
-        new{T}(nresA, nresB)
+    _nresB::L
+    function Composite_map(nresA::T, nresB::L) where {T<:Representation, L<:Representation}
+        new{T,L}(nresA, nresB)
     end
 end
 
